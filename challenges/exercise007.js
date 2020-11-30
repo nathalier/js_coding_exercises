@@ -4,6 +4,7 @@
  */
 const sumDigits = n => {
   if (n === undefined) throw new Error("n is required");
+  return n.toString().split("").map(Number).reduce((a, b) => a + b)
 };
 
 /**
@@ -17,6 +18,11 @@ const sumDigits = n => {
 const createRange = (start, end, step) => {
   if (start === undefined) throw new Error("start is required");
   if (end === undefined) throw new Error("end is required");
+  step = step || 1;
+  if ((end - start) * step < 0) throw new Error("infinite range")
+  var result = [];
+  for (var i=start; i<=end; i=i+step) result.push(i);
+  return result;
 };
 
 /**
