@@ -6,6 +6,10 @@
  */
 const sumMultiples = arr => {
   if (arr === undefined) throw new Error("arr is required");
+  var count = 0;
+  for (const x of arr) 
+    if (x % 3 === 0 || x % 5 === 0) count += x;
+  return count;
 };
 
 /**
@@ -15,6 +19,10 @@ const sumMultiples = arr => {
  */
 const isValidDNA = str => {
   if (str === undefined) throw new Error("str is required");
+  const validChars = "CGTA";
+  for (const ch of str.toUpperCase())
+    if (!(validChars.includes(ch))) return false;
+  return true;
 };
 
 /**
@@ -24,6 +32,11 @@ const isValidDNA = str => {
  */
 const getComplementaryDNA = str => {
   if (str === undefined) throw new Error("str is required");
+  if (!isValidDNA(str)) throw new Error("str should contain DNA symbols only");
+  const translTable = {"T": "A", "A": "T", "C": "G", "G":"C"};
+  var result = "";
+  [...str.toUpperCase()].forEach(ch => {result += translTable[ch]});
+  return result;
 };
 
 /**
@@ -33,6 +46,11 @@ const getComplementaryDNA = str => {
  */
 const isItPrime = n => {
   if (n === undefined) throw new Error("n is required");
+  if (n < 4) return true;
+  if (n % 2 == 0) return false;
+  for (var i = 3; i <= Math.ceil(Math.sqrt(n)); i += 2)
+    if (n % i == 0) return false;
+  return true;
 };
 
 /**
@@ -49,6 +67,9 @@ const isItPrime = n => {
 const createMatrix = (n, fill) => {
   if (n === undefined) throw new Error("n is required");
   if (fill === undefined) throw new Error("fill is required");
+  var result = new Array(n);
+  for (var i = 0; i < 6; i++) result[i] = new Array(n).fill(fill);
+  return result;
 };
 
 /**
@@ -66,6 +87,11 @@ const createMatrix = (n, fill) => {
 const areWeCovered = (staff, day) => {
   if (staff === undefined) throw new Error("staff is required");
   if (day === undefined) throw new Error("day is required");
+  // staffPerDay = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0,"Saturday": 0, "Sunday": 0};
+  var count = 0;
+  for (member of staff)
+    if (member.rota.includes(day)) count++;
+  return count >= 3;
 };
 
 module.exports = {
