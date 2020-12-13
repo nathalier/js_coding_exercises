@@ -100,9 +100,9 @@ const hexToRGB = hexStr => {
 const findWinner = board => {
   if (board === undefined) throw new Error("board is required");
 
-  function* winCombGen(n) {
+  function *winCombGen(n) {
     for (let i = 0; i < n; i++) {
-      /// generate row index combinations
+      // generate row index combinations
       yield createRange(n * i, n * i + n - 1);
       // // generate column index combinations
       yield createRange(i, n * n - 1, 3);
@@ -112,21 +112,14 @@ const findWinner = board => {
     yield createRange(n - 1, n * n - 2, n - 1);
   }
 
-  const board_size = board.length;
-  const winCombs = winCombGen(board_size);
-  flatBoard = [].concat.apply([], board);
-  let result = false;
-  
+  const winCombs = winCombGen(board.length);
+  const flatBoard = [].concat.apply([], board);
+
   let comb = winCombs.next();
   while (!comb.done) {
-    result = true;
-    for (let i = 1; i < comb.value.length; i++)
-      if (!flatBoard[comb.value[i]] || 
-           flatBoard[comb.value[i]] != flatBoard[comb.value[i-1]]) {
-        result = false;
-        break;
-      }
-    if (result) return flatBoard[comb.value[0]];
+     if (new Set(comb.value.map(i => flatBoard[i])).size == 1 &&
+      flatBoard[comb.value[0]])
+        return flatBoard[comb.value[0]]
     comb = winCombs.next();
   }
   return null;
