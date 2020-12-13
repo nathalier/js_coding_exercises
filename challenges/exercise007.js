@@ -20,8 +20,9 @@ const createRange = (start, end, step) => {
   if (end === undefined) throw new Error("end is required");
   step = step || 1;
   if ((end - start) * step < 0) throw new Error("infinite range")
-  var result = [];
-  for (var i=start; i<=end; i=i+step) result.push(i);
+  let result = [];
+  for (let i = start; (end - i) * step >= 0; i = i + step)
+    result.push(i);
   return result;
 };
 
@@ -54,9 +55,18 @@ const createRange = (start, end, step) => {
  * For example, if passed the above users and the date "2019-05-04" the function should return ["beth_1234"] as she used over 100 minutes of screentime on that date.
  * @param {Array} users
  */
+
 const getScreentimeAlertList = (users, date) => {
   if (users === undefined) throw new Error("users is required");
   if (date === undefined) throw new Error("date is required");
+  let result = [];
+  users.forEach(user => {
+    user.screenTime.forEach(day => {
+      if ((day.date == date) && Object.values(day.usage).reduce((a, b) => a + b) > 100)
+        result.push(user.username);
+    })
+  })
+  return result;
 };
 
 /**
@@ -71,6 +81,10 @@ const getScreentimeAlertList = (users, date) => {
  */
 const hexToRGB = hexStr => {
   if (hexStr === undefined) throw new Error("hexStr is required");
+  let result = "rgb(";
+  for (let i = 1; i < hexStr.length - 1; i += 2)
+    result += parseInt(hexStr.substr(i, 2), 16) + ",";
+  return result.substr(0, result.length - 1) + ")"
 };
 
 /**
@@ -85,6 +99,37 @@ const hexToRGB = hexStr => {
  */
 const findWinner = board => {
   if (board === undefined) throw new Error("board is required");
+
+  function* winCombGen(n) {
+    for (let i = 0; i < n; i++) {
+      /// generate row index combinations
+      yield createRange(n * i, n * i + n - 1);
+      // // generate column index combinations
+      yield createRange(i, n * n - 1, 3);
+    }
+    // generate diagonal index combinations
+    yield createRange(0, n * n - 1, n + 1);
+    yield createRange(n - 1, n * n - 2, n - 1);
+  }
+
+  const board_size = board.length;
+  const winCombs = winCombGen(board_size);
+  flatBoard = [].concat.apply([], board);
+  let result = false;
+  
+  let comb = winCombs.next();
+  while (!comb.done) {
+    result = true;
+    for (let i = 1; i < comb.value.length; i++)
+      if (!flatBoard[comb.value[i]] || 
+           flatBoard[comb.value[i]] != flatBoard[comb.value[i-1]]) {
+        result = false;
+        break;
+      }
+    if (result) return flatBoard[comb.value[0]];
+    comb = winCombs.next();
+  }
+  return null;
 };
 
 module.exports = {
