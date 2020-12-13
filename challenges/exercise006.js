@@ -68,7 +68,7 @@ const createMatrix = (n, fill) => {
   if (n === undefined) throw new Error("n is required");
   if (fill === undefined) throw new Error("fill is required");
   var result = new Array(n);
-  for (var i = 0; i < 6; i++) result[i] = new Array(n).fill(fill);
+  for (var i = 0; i < n; i++) result[i] = new Array(n).fill(fill);
   return result;
 };
 
@@ -87,7 +87,6 @@ const createMatrix = (n, fill) => {
 const areWeCovered = (staff, day) => {
   if (staff === undefined) throw new Error("staff is required");
   if (day === undefined) throw new Error("day is required");
-  // staffPerDay = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0,"Saturday": 0, "Sunday": 0};
   var count = 0;
   for (member of staff)
     if (member.rota.includes(day)) count++;
