@@ -3,9 +3,9 @@
  * @param {Number} n
  */
 const sumDigits = n => {
-  if (n === undefined) throw new Error("n is required");
+  if (n === undefined) throw new Error("n is required")
   return n.toString().split("").map(Number).reduce((a, b) => a + b)
-};
+}
 
 /**
  * This function creates a range of numbers as an array. It received a start, an end and a step. Step is the gap between numbers in the range. For example, if start = 3, end = 11 and step = 2 the resulting range would be: [3, 5, 7, 9, 11]
@@ -16,15 +16,15 @@ const sumDigits = n => {
  * @param {Number} step
  */
 const createRange = (start, end, step) => {
-  if (start === undefined) throw new Error("start is required");
-  if (end === undefined) throw new Error("end is required");
-  step = step || 1;
+  if (start === undefined) throw new Error("start is required")
+  if (end === undefined) throw new Error("end is required")
+  step = step || 1
   if ((end - start) * step < 0) throw new Error("infinite range")
-  let result = [];
+  let result = []
   for (let i = start; (end - i) * step >= 0; i = i + step)
-    result.push(i);
-  return result;
-};
+    result.push(i)
+  return result
+}
 
 /**
  * This function takes an array of user objects and their usage in minutes of various applications. The format of the data should be as follows:
@@ -57,17 +57,17 @@ const createRange = (start, end, step) => {
  */
 
 const getScreentimeAlertList = (users, date) => {
-  if (users === undefined) throw new Error("users is required");
-  if (date === undefined) throw new Error("date is required");
-  let result = [];
+  if (users === undefined) throw new Error("users is required")
+  if (date === undefined) throw new Error("date is required")
+  let result = []
   users.forEach(user => {
     user.screenTime.forEach(day => {
       if ((day.date == date) && Object.values(day.usage).reduce((a, b) => a + b) > 100)
-        result.push(user.username);
+        result.push(user.username)
     })
   })
-  return result;
-};
+  return result
+}
 
 /**
  * This function will receive a hexadecimal color code in the format #FF1133. A hexadecimal code is a number written in hexadecimal notation, i.e. base 16. If you want to know more about hexadecimal notation:
@@ -80,12 +80,12 @@ const getScreentimeAlertList = (users, date) => {
  * @param {String} str
  */
 const hexToRGB = hexStr => {
-  if (hexStr === undefined) throw new Error("hexStr is required");
-  let result = "rgb(";
+  if (hexStr === undefined) throw new Error("hexStr is required")
+  let result = "rgb("
   for (let i = 1; i < hexStr.length - 1; i += 2)
-    result += parseInt(hexStr.substr(i, 2), 16) + ",";
+    result += parseInt(hexStr.substr(i, 2), 16) + ","
   return result.substr(0, result.length - 1) + ")"
-};
+}
 
 /**
  * This function takes a noughts and crosses board represented as an array, where an empty space is represented with null.
@@ -98,32 +98,32 @@ const hexToRGB = hexStr => {
  * @param {Array} board
  */
 const findWinner = board => {
-  if (board === undefined) throw new Error("board is required");
+  if (board === undefined) throw new Error("board is required")
 
   function *winCombGen(n) {
     for (let i = 0; i < n; i++) {
       // generate row index combinations
-      yield createRange(n * i, n * i + n - 1);
+      yield createRange(n * i, n * i + n - 1)
       // // generate column index combinations
-      yield createRange(i, n * n - 1, 3);
+      yield createRange(i, n * n - 1, 3)
     }
     // generate diagonal index combinations
-    yield createRange(0, n * n - 1, n + 1);
-    yield createRange(n - 1, n * n - 2, n - 1);
+    yield createRange(0, n * n - 1, n + 1)
+    yield createRange(n - 1, n * n - 2, n - 1)
   }
 
-  const winCombs = winCombGen(board.length);
-  const flatBoard = [].concat.apply([], board);
+  const winCombs = winCombGen(board.length)
+  const flatBoard = [].concat.apply([], board)
 
-  let comb = winCombs.next();
+  let comb = winCombs.next()
   while (!comb.done) {
      if (new Set(comb.value.map(i => flatBoard[i])).size == 1 &&
       flatBoard[comb.value[0]])
         return flatBoard[comb.value[0]]
-    comb = winCombs.next();
+    comb = winCombs.next()
   }
-  return null;
-};
+  return null
+}
 
 module.exports = {
   sumDigits,
@@ -131,4 +131,4 @@ module.exports = {
   getScreentimeAlertList,
   hexToRGB,
   findWinner
-};
+}
