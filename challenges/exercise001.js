@@ -33,18 +33,13 @@ function reverseWord(word) {
 
 function reverseAllWords(words) {
   if (words === undefined) throw new Error("words is required")
-  var result = []
-  for (let w of words)
-    result.push(reverseWord(w))
-  return result
+  return words.map(reverseWord)
 }
 
 function countLinuxUsers(users) {
   if (users === undefined) throw new Error("users is required")
-  var count = 0
-  for (let user of users)
-    if (user.type === "Linux")
-      count++
+  let count = 0
+  users.forEach(user => {if (user.type === "Linux") count++})
   return count
 }
 
@@ -55,11 +50,9 @@ function getMeanScore(scores) {
 
 function simpleFizzBuzz(n) {
   if (n === undefined) throw new Error("n is required")
-  var result = ""
-  if (n % 3 == 0) 
-    result += "fizz"
-  if (n % 5 == 0) 
-    result += "buzz"
+  let result = ""
+  result += n % 3 == 0 ? "fizz" : ""
+  result += n % 5 == 0 ? "buzz" : ""
   return result || n
 }
 
