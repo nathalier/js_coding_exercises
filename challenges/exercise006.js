@@ -6,9 +6,8 @@
  */
 const sumMultiples = arr => {
   if (arr === undefined) throw new Error("arr is required")
-  var count = 0
-  for (const x of arr) 
-    if (x % 3 === 0 || x % 5 === 0) count += x
+  let count = 0
+  arr.forEach(num => {if (num % 3 === 0 || num % 5 === 0) count += num})
   return count
 }
 
@@ -20,9 +19,7 @@ const sumMultiples = arr => {
 const isValidDNA = str => {
   if (str === undefined) throw new Error("str is required")
   const validChars = "CGTA"
-  for (const ch of str.toUpperCase())
-    if (!(validChars.includes(ch))) return false
-  return true
+  return [...str.toUpperCase()].filter(char => !validChars.includes(char)).length == 0
 }
 
 /**
@@ -67,9 +64,7 @@ const isItPrime = n => {
 const createMatrix = (n, fill) => {
   if (n === undefined) throw new Error("n is required")
   if (fill === undefined) throw new Error("fill is required")
-  var result = new Array(n)
-  for (var i = 0; i < n; i++) result[i] = new Array(n).fill(fill)
-  return result
+  return Array.from(Array(n), () => new Array(n).fill(fill))
 }
 
 /**
@@ -87,9 +82,8 @@ const createMatrix = (n, fill) => {
 const areWeCovered = (staff, day) => {
   if (staff === undefined) throw new Error("staff is required")
   if (day === undefined) throw new Error("day is required")
-  var count = 0
-  for (let member of staff)
-    if (member.rota.includes(day)) count++
+  let count = 0
+  staff.forEach(member => {if (member.rota.includes(day)) count++})
   return count >= 3
 }
 
