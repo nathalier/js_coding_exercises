@@ -1,18 +1,15 @@
 const findNextNumber = (nums, n) => {
   if (nums === undefined) throw new Error("nums is required")
   if (n === undefined) throw new Error("n is required")
-  var pos = nums.indexOf(n)
-  if (pos >= 0 && pos < nums.length - 1) 
-    return nums[pos + 1]
-  return null 
+  let pos = nums.indexOf(n)
+  return (pos >= 0 && pos < nums.length - 1) ? nums[pos + 1] : null
 }
 
 const count1sand0s = str => {
   if (str === undefined) throw new Error("str is required")
-  var result = {1:0, 0:0}
-  for (const c of str)
-    if (c == "1") result[1]++
-    else if (c == "0") result[0]++
+  let result = {1:0, 0:0}
+  let arr = [...str].map(digit => parseInt(digit))
+  arr.forEach(digit => result[digit]++)
   return result
 }
 
@@ -28,7 +25,7 @@ const sumArrays = arrs => {
 
 const arrShift = arr => {
   if (arr === undefined) throw new Error("arr is required")
-  var arrRes = arr.slice()
+  let arrRes = arr.slice()
   if (arrRes.length > 1)
     [arrRes[0], arrRes[arrRes.length - 1]] = [arrRes[arrRes.length - 1], arrRes[0]]
   return arrRes
@@ -38,18 +35,15 @@ const findNeedle = (haystack, searchTerm) => {
   if (haystack === undefined) throw new Error("haystack is required")
   if (searchTerm === undefined) throw new Error("searchTerm is required")
   const searchTermLow = searchTerm.toLowerCase()
-  for (const key in haystack)
-    if ((typeof haystack[key] === "string") && haystack[key].toLowerCase().includes(searchTermLow))
-      return true
-  return false
+  return Object.keys(haystack).some(property =>
+    (typeof haystack[property] === "string") && haystack[property].toLowerCase().includes(searchTermLow))
 }
 
 const getWordFrequencies = str => {
   if (str === undefined) throw new Error("str is required")
-  var words = str.toLowerCase().match(/\w+/g)
-  var result = {}
-  for (const word of words)
-    result[word] = (result[word] || 0) + 1
+  let words = str.toLowerCase().match(/\w+/g)
+  let result = {}
+  words.forEach(word => result[word] = (result[word] || 0) + 1)
   return result
 }
 
