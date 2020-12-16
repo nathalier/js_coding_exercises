@@ -10,19 +10,15 @@ function camelCaseWords(words) {
 
 function getTotalSubjects(people) {
   if (people === undefined) throw new Error("people is required")
-  var count = 0
-  for (const p of people)
-    count += p.subjects.length
+  let count = 0
+  people.forEach(person => count += person.subjects.length)
   return count
 }
 
 function checkIngredients(menu, ingredient) {
   if (menu === undefined) throw new Error("menu is required")
   if (!ingredient) throw new Error("ingredient is required")
-  for (const item of menu)
-    if (item.ingredients.includes(ingredient))
-      return true
-  return false
+  return menu.some(item => item.ingredients.includes(ingredient))
 }
 
 function duplicateNumbers(arr1, arr2) {
