@@ -100,27 +100,31 @@ const hexToRGB = hexStr => {
 const findWinner = board => {
   if (board === undefined) throw new Error("board is required")
 
+  /** 
+   * This generator creates all possible combinations of winning position on a board.
+   * Namely, it returns arrays of indices for each row, each column, and diagonals.
+   */
   function *winCombGen(n) {
     for (let i = 0; i < n; i++) {
-      // generate row index combinations
+      // generates combinations of indices of each row
       yield createRange(n * i, n * i + n - 1)
-      // // generate column index combinations
+      // generates combinations of indices of each column
       yield createRange(i, n * n - 1, 3)
     }
-    // generate diagonal index combinations
+    // generates combinations of indices of diagonals
     yield createRange(0, n * n - 1, n + 1)
     yield createRange(n - 1, n * n - 2, n - 1)
   }
 
+  // create a generator which would yield combinations of possible winning positions
   const winCombs = winCombGen(board.length)
   const flatBoard = [].concat.apply([], board)
 
-  let comb = winCombs.next()
-  while (!comb.done) {
-     if (new Set(comb.value.map(i => flatBoard[i])).size == 1 &&
-      flatBoard[comb.value[0]])
-        return flatBoard[comb.value[0]]
-    comb = winCombs.next()
+  let indices = winCombs.next()
+  while (!indices.done) {
+    if (new Set(indices.value.map(i => flatBoard[i])).size == 1 && flatBoard[indices.value[0]])
+      return flatBoard[indices.value[0]]
+    indices = winCombs.next()
   }
   return null
 }
