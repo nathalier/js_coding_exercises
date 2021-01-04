@@ -8,8 +8,7 @@ const findNextNumber = (nums, n) => {
 const count1sand0s = str => {
   if (str === undefined) throw new Error("str is required")
   let result = {1:0, 0:0}
-  let arr = [...str].map(digit => parseInt(digit))
-  arr.forEach(digit => result[digit]++)
+  str.split('').map(digit => parseInt(digit)).forEach(digit => result[digit]++)
   return result
 }
 
