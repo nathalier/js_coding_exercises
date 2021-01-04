@@ -31,7 +31,7 @@ const getComplementaryDNA = str => {
   if (str === undefined) throw new Error("str is required")
   if (!isValidDNA(str)) throw new Error("str should contain DNA symbols only")
   const translTable = {"T": "A", "A": "T", "C": "G", "G":"C"}
-  var result = "";
+  let result = "";
   [...str.toUpperCase()].forEach(ch => {result += translTable[ch]})
   return result
 }
@@ -45,7 +45,7 @@ const isItPrime = n => {
   if (n === undefined) throw new Error("n is required")
   if (n < 4) return true
   if (n % 2 == 0) return false
-  for (var i = 3; i <= Math.ceil(Math.sqrt(n)); i += 2)
+  for (let i = 3; i <= Math.ceil(Math.sqrt(n)); i += 2)
     if (n % i == 0) return false
   return true
 }
